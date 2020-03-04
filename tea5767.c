@@ -7,7 +7,6 @@
  *      Author: Daniel Buckley
  */
 
-#include <msp430.h>
 #include "tea5767.h"
 #include "i2c.h"
 
@@ -99,8 +98,6 @@ unsigned char is_band_limit_reached(void) {
 }
 
 void init_TEA5767N(void) {
-    initClockTo16MHz();
-    initGPIO();
     initI2C();
     init_transmission_data();
     radio_settings = 0;
