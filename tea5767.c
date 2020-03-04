@@ -12,7 +12,6 @@
 #include "i2c.h"
 
 uint8_t transmission_data[5] = {0, 0, 0, 0, 0};
-
 uint8_t reception_data[5] = {0, 0, 0, 0, 0};
 
 void set_frequency(float freq) {
@@ -32,8 +31,6 @@ void set_frequency(float freq) {
 }
 
 void transmit_data(void) {
-    // transmit 5 bytes to radio with 100 ms delay after all data is transferred
-    // I2C_Master_WriteReg(uint8_t dev_addr, uint8_t reg_addr, uint8_t *reg_data, uint8_t count)
     uint8_t temp_transmit[4] = {transmission_data[1], transmission_data[2], transmission_data[3], transmission_data[4]};
     I2C_Master_WriteReg(TEA5767_I2C_ADDRESS, transmission_data[0], temp_transmit, 4);
     __delay_cycles(1600);
@@ -48,8 +45,6 @@ void init_transmission_data(void) {
 }
 
 void read_status(void) {
-    // read 5 bytes from radio with 100 ms delay after all data is received
-    // I2C_Master_ReadReg(uint8_t dev_addr, uint8_t reg_addr, uint8_t count)
     I2C_Master_ReadReg(TEA5767_I2C_ADDRESS, 0, 5);
     CopyArray(ReceiveBuffer, reception_data, 5);
     __delay_cycles(1600);

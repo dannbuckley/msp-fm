@@ -5,7 +5,6 @@
  *      Author: Daniel Buckley
  */
 
-//******************************************************************************
 //   MSP430G2xx3 Demo - USCI_B0, I2C Master multiple byte TX/RX
 //
 //   Description: I2C master communicates to I2C slave sending and receiving
@@ -30,30 +29,11 @@
 //   Texas Instruments Inc.
 //   April 2017
 //   Built with CCS V7.0
-//******************************************************************************
 
 #include <msp430.h>
 #include "i2c.h"
 
-/* MasterTypeX are example buffers initialized in the master, they will be
- * sent by the master to the slave.
- * SlaveTypeX are example buffers initialized in the slave, they will be
- * sent by the slave to the master.
- * */
-
-uint8_t MasterType2 [TYPE_2_LENGTH] = {'F', '4', '1', '9', '2', 'B'};
-uint8_t MasterType1 [TYPE_1_LENGTH] = { 8, 9};
-uint8_t MasterType0 [TYPE_0_LENGTH] = { 11};
-
-
-uint8_t SlaveType2 [TYPE_2_LENGTH] = {0};
-uint8_t SlaveType1 [TYPE_1_LENGTH] = {0};
-uint8_t SlaveType0 [TYPE_0_LENGTH] = {0};
-
-//******************************************************************************
-// General I2C State Machine ***************************************************
-//******************************************************************************
-
+// General I2C State Machine
 /* Used to track the state of the software state machine*/
 I2C_Mode MasterMode = IDLE_MODE;
 
@@ -132,10 +112,7 @@ void CopyArray(uint8_t *source, uint8_t *dest, uint8_t count)
     }
 }
 
-//******************************************************************************
-// Device Initialization *******************************************************
-//******************************************************************************
-
+// Device Initialization
 void initClockTo16MHz()
 {
     if (CALBC1_16MHZ==0xFF)                  // If calibration constant erased
@@ -149,9 +126,6 @@ void initClockTo16MHz()
 
 void initGPIO()
 {
-//    P1DIR |= BIT0 + BIT1 + BIT2 + BIT3 + BIT4;
-//    P1OUT &= ~(BIT0 + BIT1 + BIT2 + BIT3 + BIT4);
-
     P1SEL |= BIT6 + BIT7;                     // Assign I2C pins to USCI_B0
     P1SEL2|= BIT6 + BIT7;                     // Assign I2C pins to USCI_B0
 }
@@ -168,42 +142,7 @@ void initI2C()
     UCB0I2CIE |= UCNACKIE;
 }
 
-//******************************************************************************
-// Main ************************************************************************
-// Send and receive three messages containing the example commands *************
-//******************************************************************************
-
-//int main(void) {
-//
-//    WDTCTL = WDTPW | WDTHOLD;                 // Stop watchdog timer
-//
-//    initClockTo16MHz();
-//    initGPIO();
-//    initI2C();
-//
-//
-//    I2C_Master_WriteReg(SLAVE_ADDR, CMD_TYPE_0_MASTER, MasterType0, TYPE_0_LENGTH);
-//    I2C_Master_WriteReg(SLAVE_ADDR, CMD_TYPE_1_MASTER, MasterType1, TYPE_1_LENGTH);
-//    I2C_Master_WriteReg(SLAVE_ADDR, CMD_TYPE_2_MASTER, MasterType2, TYPE_2_LENGTH);
-//
-//    I2C_Master_ReadReg(SLAVE_ADDR, CMD_TYPE_0_SLAVE, TYPE_0_LENGTH);
-//    CopyArray(ReceiveBuffer, SlaveType0, TYPE_0_LENGTH);
-//
-//    I2C_Master_ReadReg(SLAVE_ADDR, CMD_TYPE_1_SLAVE, TYPE_1_LENGTH);
-//    CopyArray(ReceiveBuffer, SlaveType1, TYPE_1_LENGTH);
-//
-//    I2C_Master_ReadReg(SLAVE_ADDR, CMD_TYPE_2_SLAVE, TYPE_2_LENGTH);
-//    CopyArray(ReceiveBuffer, SlaveType2, TYPE_2_LENGTH);
-//
-//    __bis_SR_register(LPM0_bits + GIE);
-//    return 0;
-//}
-
-
-//******************************************************************************
-// I2C Interrupt For Received and Transmitted Data *****************************
-//******************************************************************************
-
+// I2C Interrupt For Received and Transmitted Data
 #if defined(__TI_COMPILER_VERSION__) || defined(__IAR_SYSTEMS_ICC__)
 #pragma vector = USCIAB0TX_VECTOR
 __interrupt void USCIAB0TX_ISR(void)
@@ -284,11 +223,7 @@ void __attribute__ ((interrupt(USCIAB0TX_VECTOR))) USCIAB0TX_ISR (void)
   }
 }
 
-
-//******************************************************************************
-// I2C Interrupt For Start, Restart, NACK, Stop ********************************
-//******************************************************************************
-
+// I2C Interrupt For Start, Restart, NACK, Stop
 #if defined(__TI_COMPILER_VERSION__) || defined(__IAR_SYSTEMS_ICC__)
 #pragma vector = USCIAB0RX_VECTOR
 __interrupt void USCIAB0RX_ISR(void)

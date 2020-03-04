@@ -17,7 +17,4 @@ int main(void)
 	toggle_mute();
 
 	while(true) {}
-//	__bis_SR_register(LPM0 + GIE);
-
-//	return 0;
 }

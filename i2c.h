@@ -13,39 +13,12 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-//******************************************************************************
-// Example Commands ************************************************************
-//******************************************************************************
-
 #define TEA5767_I2C_ADDRESS  0x60
-
-/* CMD_TYPE_X_SLAVE are example commands the master sends to the slave.
- * The slave will send example SlaveTypeX buffers in response.
- *
- * CMD_TYPE_X_MASTER are example commands the master sends to the slave.
- * The slave will initialize itself to receive MasterTypeX example buffers.
- * */
-
-#define CMD_TYPE_0_SLAVE      0
-#define CMD_TYPE_1_SLAVE      1
-#define CMD_TYPE_2_SLAVE      2
-
-#define CMD_TYPE_0_MASTER      3
-#define CMD_TYPE_1_MASTER      4
-#define CMD_TYPE_2_MASTER      5
-
-#define TYPE_0_LENGTH   1
-#define TYPE_1_LENGTH   2
-#define TYPE_2_LENGTH   6
-
 #define MAX_BUFFER_SIZE     20
 
 extern uint8_t ReceiveBuffer[MAX_BUFFER_SIZE];
 
-//******************************************************************************
-// General I2C State Machine ***************************************************
-//******************************************************************************
-
+// General I2C State Machine
 typedef enum I2C_ModeEnum{
     IDLE_MODE,
     NACK_MODE,
@@ -86,10 +59,7 @@ I2C_Mode I2C_Master_WriteReg(uint8_t dev_addr, uint8_t reg_addr, uint8_t *reg_da
 I2C_Mode I2C_Master_ReadReg(uint8_t dev_addr, uint8_t reg_addr, uint8_t count);
 void CopyArray(uint8_t *source, uint8_t *dest, uint8_t count);
 
-//******************************************************************************
-// Device Initialization *******************************************************
-//******************************************************************************
-
+// Device Initialization
 void initClockTo16MHz(void);
 void initGPIO(void);
 void initI2C(void);
